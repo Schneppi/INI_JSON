@@ -1,6 +1,10 @@
 # INI_JSON
 INI_JSON a Xojo Class for Reading/Writing Ini-Files crossplatform
 
+### Usage/Installation
+1. Open the INI_JSON Project
+2. Drag and Drop the INI_JSON Class from the INI_JSON Project Navigator into your own Projects Navigator
+
 ### Changes
 - v.1.0 - Load INI, Saves as JSON, can load such JSON back, can lookup and set session properties
 - v.1.1 - Added SaveINI
