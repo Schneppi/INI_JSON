@@ -1,5 +1,5 @@
 # INI_JSON
-INI_JSON a Xojo Class for Reading/Writing Ini-Files crossplatform
+INI_JSON - A crossplatform Xojo dual Class, to read INI or compatible JSON configuration files, handle the contents, and save them back as INI or JSON.
 
 ### Usage/Installation
 1. Open the INI_JSON Project
