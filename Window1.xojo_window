@@ -35,9 +35,11 @@ End
 		  
 		  Var f as New FolderItem("D:\tmp\") // point to a folder
 		  
-		  Var ini As New INI_JSON(f.Child("net.ini")) // load a ini file there
+		  Var ini As New INI_JSON
 		  
-		  ini.SaveJSON(f.Child("net.JSON")) // save it converted to JSON
+		  ini.LoadINI(f.Child("net.ini")) // load a ini file there
+		  
+		  ini.SaveJSON(f.Child("net.json")) // save it converted to JSON
 		  
 		  // Lets consult some properties
 		  
@@ -69,7 +71,12 @@ End
 		  ini.Set "/cgi", "handler", "auto"
 		  
 		  // Let save a new ini file copy, add 2 lines with remarks on top
-		  ini.SaveINI(f.Child("net.conv.INI"), "net.ini;Modified "+DateTime.Now.SQLDateTime) // save modified copy
+		  ini.SaveINI(f.Child("net.conv.ini"), "net.ini;Modified "+DateTime.Now.SQLDateTime) // save modified copy
+		  
+		  Const confStr As String = "{""network1"":{""gateway"":""192.168.1.1"",""ip"":""192.168.1.2""},""network2"":{""gateway"":""10.1.1.1"",""ip"":""10.1.1.50""}}"
+		  ini.LoadJSON(confStr)
+		  ini.SaveINI(f.Child("net.const.ini"))
+		  
 		  
 		  MessageBox "Done. Check the files."
 		  

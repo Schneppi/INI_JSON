@@ -10,8 +10,11 @@ Protected Class INI_JSON
 
 	#tag Method, Flags = &h0
 		Sub Constructor(file As FolderItem)
-		  
-		  LoadINI(file)
+		  If file.Name.Trim.Right(4).Lowercase = ".ini" Then
+		    LoadINI(file)
+		  Else
+		    LoadJSON(file)
+		  End
 		  
 		  
 		End Sub
@@ -19,8 +22,14 @@ Protected Class INI_JSON
 
 	#tag Method, Flags = &h0
 		Sub Constructor(filepath As String)
+		  Var file As New FolderItem(filepath)
 		  
-		  LoadINI(New FolderItem(filepath))
+		  If file.Name.Trim.Right(4).Lowercase = ".ini" Then
+		    LoadINI(file)
+		  Else
+		    LoadJSON(file)
+		  End
+		  
 		  
 		  
 		End Sub
@@ -127,6 +136,32 @@ Protected Class INI_JSON
 		  t.Close
 		  
 		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Sub LoadJSON(jsonString As String)
+		  // You can load a compatible JSON string on the fly
+		  
+		  INI_JSON_ = New JSONItem(jsonString)
+		  
+		  
+		  // Const confStr As String = "{""network1"":{""gateway"":""192.168.1.1"",""ip"":""192.168.1.2""},""network2"":{""gateway"":""10.1.1.1"",""ip"":""10.1.1.50""}}"
+		  // Var ini As New INI_JSON
+		  // ini.LoadJSON(confStr)
+		  // ini.SaveINI(new FolderItem("D:\tmp\temp.ini"))
+		  
+		  // *** I will save a ini file as:
+		  
+		  // [network1]
+		  // 
+		  // gateway=192.168.1.1
+		  // ip=192.168.1.2
+		  // 
+		  // [network2]
+		  // 
+		  // gateway=10.1.1.1
+		  // ip=10.1.1.50
 		End Sub
 	#tag EndMethod
 
@@ -249,7 +284,7 @@ Protected Class INI_JSON
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Sub SaveJSON(file As FolderItem)
+		Sub SaveJSON(file As FolderItem, compressed As Boolean = False)
 		  // Save the INI as a JSON file equivalent
 		  
 		  If file = Nil Or file.IsFolder Then
@@ -257,6 +292,7 @@ Protected Class INI_JSON
 		  End
 		  
 		  Var t As TextOutputStream = TextOutputStream.Create(file)
+		  INI_JSON_.Compact = compressed     // compressed is short but hard to read/edit
 		  t.WriteLine(INI_JSON_.ToString)
 		  t.Close
 		  
@@ -301,6 +337,9 @@ Protected Class INI_JSON
 		v.1.2 - Enhanced the example. Adjust the code for your use, catch exceptions as needed
 		v.1.3 - Covered more use cases, Added: 
 		        SessionExists(), PropertyExists(), RemoveSession(), RemoveProperty(), CreateSession()
+		v.1.4 - Added LoadJSON(jsonString),
+		        SaveJSON(file) now saves uncompressed JSON by default, use SaveJSON(file, True) to compact
+		        Contructor auto loads a INI if the file extension is .ini else it tries loading a JSON
 		
 		
 		INI used in the tests:
